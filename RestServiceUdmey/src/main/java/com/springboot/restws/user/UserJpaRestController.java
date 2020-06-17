@@ -32,6 +32,9 @@ public class UserJpaRestController {
 	@Autowired
 	private UserRepository userRepo;
 	
+	@Autowired
+	private PostRepository postRepo;
+	
 	
 	@GetMapping(path="/jpa/users")
 	public List<User> getAllUsers(){
@@ -68,6 +71,22 @@ public class UserJpaRestController {
 		else{
 			throw new UserException("User with same id already exists.");
 		}
+		
+	}
+	
+	@PostMapping(path="/jpa/users/{id}")
+	public void createPost(@PathVariable Integer id,@RequestBody Post post){
+		
+		
+		Optional<User> user = userRepo.findById(id);
+		
+		if(!user.isPresent()){
+			
+			throw new UserException("User not found");
+		}
+		
+		post.setUser(user.get());
+		postRepo.save(post);
 		
 	}
 }

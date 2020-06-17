@@ -28,7 +28,7 @@ public class User {
 	
 	private Date birthDate;
 
-	@OneToMany(fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="user")
 	private List<Post> posts;
 	
 	protected User() {
